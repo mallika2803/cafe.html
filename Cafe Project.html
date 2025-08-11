@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafeteria Hub</title>
+    <!-- Font Awesome for Icons: This CDN link gives us access to a wide range of icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS Variables for a consistent color palette and easy theming */
+        :root {
+            --color-brown-dark: #3e2723;
+            --color-brown-light: #5d4037;
+            --color-orange: #ff9800;
+            --color-orange-light: #ffc107;
+            --color-beige: #fafafa;
+            --color-grey-dark: #424242;
+            --color-grey-light: #f5f5f5;
+            --color-blue-accent: #4facfe;
+        }
+
+        /* General Body and Main Container Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-grey-light);
+            color: var(--color-grey-dark);
+            scroll-behavior: smooth; /* Enables smooth scrolling to sections */
+        }
+
+        /* Header and Navigation Bar Styling */
+        .main-header {
+            background: linear-gradient(to right, var(--color-brown-dark), var(--color-brown-light));
+            padding: 1.5rem 2rem;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .main-header .title-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .main-header .title-icons i {
+            font-size: 2rem;
+            transition: transform 0.3s ease; /* Animation for icon hover */
+        }
+
+        .main-header h1 {
+            font-size: 3rem;
+            margin: 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 8px 20px;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .navbar a:hover {
+            background-color: var(--color-orange);
+            transform: translateY(-2px); /* Button lift effect on hover */
+        }
+
+        /* Main Content Grid Layout */
+        .content-wrapper {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .menu-section {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            margin-bottom: 2rem;
+        }
+
+        .menu-section:hover {
+            transform: translateY(-5px); /* Card lift on hover */
+        }
+
+        .section-header {
+            padding: 1.5rem;
+            color: white;
+            text-align: center;
+        }
+
+        /* Gradient backgrounds for different sections */
+        .section-header.breakfast {
+            background: linear-gradient(to right, var(--color-brown-light), #795548);
+        }
+
+        .section-header.lunch {
+            background: linear-gradient(to right, var(--color-orange), #ffb74d);
+        }
+
+        .section-header.dinner {
+            background: linear-gradient(to right, var(--color-blue-accent), #00d4ff);
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .menu-items {
+            padding: 1rem;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: var(--color-beige);
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: background-color 0.2s ease;
+        }
+
+        .menu-item:hover {
+            background-color: var(--color-grey-light);
+        }
+
+        .menu-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .item-details {
+            flex-grow: 1;
+        }
+
+        .item-details h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--color-brown-dark);
+        }
+
+        .item-details p {
+            margin: 5px 0 0;
+            font-size: 0.9rem;
+            color: var(--color-brown-light);
+        }
+
+        .price {
+            font-weight: bold;
+            color: var(--color-orange);
+            font-size: 1.1rem;
+        }
+
+        /* Footer and Feedback Section Styling */
+        .main-footer {
+            background-color: var(--color-brown-dark);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 2rem;
+        }
+
+        .contact-info, .feedback-form {
+            flex-basis: 45%;
+            min-width: 300px;
+            text-align: left;
+        }
+
+        .contact-info h3, .feedback-form h3 {
+            font-size: 2rem;
+            border-bottom: 2px solid var(--color-orange);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            color: var(--color-orange);
+        }
+        
+        .contact-info p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .contact-info a:hover {
+            color: var(--color-orange);
+        }
+
+        /* Feedback Form Styling */
+        .feedback-form form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .rating-stars {
+            display: flex;
+            flex-direction: row-reverse; /* Reverses the stars for a standard rating display */
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .rating-stars input {
+            display: none;
+        }
+
+        .rating-stars label {
+            color: #ccc;
+            cursor: pointer;
+            font-size: 2rem;
+            padding: 5px;
+            transition: color 0.2s ease;
+        }
+
+        .rating-stars input:checked ~ label,
+        .rating-stars label:hover,
+        .rating-stars label:hover ~ label {
+            color: var(--color-orange-light); /* Star color on hover/checked */
+        }
+        
+        .feedback-form textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: none;
+            background-color: #4e342e;
+            color: white;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .feedback-form button {
+            background: linear-gradient(to right, var(--color-orange), var(--color-orange-light));
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .feedback-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive Design for smaller screens */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+                background-color: transparent;
+                box-shadow: none;
+            }
+            .navbar a {
+                width: 80%;
+            }
+            .main-footer {
+                flex-direction: column;
+            }
+            .contact-info, .feedback-form {
+                text-align: center;
+                flex-basis: 100%;
+            }
+            .contact-info h3, .feedback-form h3 {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header" id="home">
+        <div class="title-icons">
+            <i class="fas fa-hotdog"></i>
+            <i class="fas fa-pizza-slice"></i>
+            <i class="fas fa-cookie"></i>
+        </div>
+        <h1>THE ALL DAY CAFE!</h1>
+        <nav class="navbar">
+            <a href="#home">Home</a>
+            <a href="#menu">Menu</a>
+            <a href="#contact">Contact</a>
+            <a href="#feedback">Feedback</a>
+        </nav>
+    </header>
+
+    <main class="content-wrapper">
+        <section id="menu">
+            <h2 style="text-align: center; font-size: 2.5rem; color: var(--color-brown-dark); margin: 2rem 0;">Our Delicious Menu</h2>
+            <div class="menu-grid">
+                <!-- Breakfast Section -->
+                <section class="menu-section">
+                    <div class="section-header breakfast">
+                        <h2>Breakfast</h2>
+                    </div>
+                    <div class="menu-items">
+                        <div class="menu-item">
+                            <img src="https://hips.hearstapps.com/hmg-prod/images/scrambled-eggs-socialindex-web-0066-lp-del039925-67eb04f9a151b.jpg?crop=0.502xw:1.00xh;0.464xw,0&resize=1200:*" alt="Scrambled Eggs">
+                            <div class="item-details">
+                                <h3>Scrambled Eggs</h3>
+                                <p>Fluffy eggs with a side of toast.</p>
+                            </div>
+                            <span class="price">$5.99</span>
+                        </div>
+                        <div class="menu-item">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSB5Ra2utclWoPBEP-_ROifpOd6BKVbUQ6Kvg&s" alt="Pancakes">
+                            <div class="item-details">
+                                <h3>Honey Pancakes</h3>
+                                <p>Stack of pancakes with maple syrup.</p>
+                            </div>
+                            <span class="price">$6.50</span>
+                        </div>
+                        <div class="menu-item">
+                            <img src="https://i.pinimg.com/564x/c6/c6/20/c6c620e5fed97b7d1034e131b5616a3c.jpg" alt="Coffee">
+                            <div class="item-details">
+                                <h3>Freshly Brewed Coffee</h3>
+                                <p>Dark roast coffee, served hot.</p>
+                            </div>
+                            <span class="price">$2.50</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Lunch Section -->
+                <section class="menu-section">
+                    <div class="section-header lunch">
+                        <h2>Lunch</h2>
+                    </div>
+                    <div class="menu-items">
+                        <div class="menu-item">
+                            <img src="https://www.indianhealthyrecipes.com/wp-content/uploads/2024/07/grilled-chicken-sandwich-recipe.jpg" alt="Grilled Chicken Sandwich">
+                            <div class="item-details">
+                                <h3>Grilled Chicken Sandwich</h3>
+                                <p>Tender chicken breast, fresh veggies.</p>
+                            </div>
+                            <span class="price">$8.99</span>
+                        </div>
+                        <div class="menu-item">
+                            <img src="https://www.indianhealthyrecipes.com/wp-content/uploads/2019/06/vegetable-soup.jpg" alt="Soup of the Day">
+                            <div class="item-details">
+                                <h3>Soup of the Day</h3>
+                                <p>Ask your server for today's special.</p>
+                            </div>
+                            <span class="price">$4.50</span>
+                        </div>
+                        <div class="menu-item">
+                            <img src="https://www.allrecipes.com/thmb/vB8y6pWhAUryckrGwErAR2Bwa18=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/7550384_Copycat-Olive-Garden-Salad-Dotdash-Meredith-Food-Studios_4x3-225a9029979e4294a19a4ed2a6f1654e.jpg" alt="Garden Salad">
+                            <div class="item-details">
+                                <h3>Garden Salad</h3>
+                                <p>Mixed greens with house dressing.</p>
+                            </div>
+                            <span class="price">$7.00</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Dinner Section -->
+                <section class="menu-section">
+                    <div class="section-header dinner">
+                        <h2>Dinner</h2>
+                    </div>
+                    <div class="menu-items">
+                        <div class="menu-item">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1uMAXI-SoSj788ExNKYgXONZcM6G26Hx-pA&s" alt="Steak and Potatoes">
+                            <div class="item-details">
+                                <h3>Steak and Potatoes</h3>
+                                <p>Grilled steak with roasted potatoes.</p>
+                            </div>
+                            <span class="price">$15.99</span>
+                        </div>
+                        <div class="menu-item">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRA3AyTdt_ZlMAflYUNl5nRuZ_bQpuOPAehJw&s" alt="Vegetable Lasagna">
+                            <div class="item-details">
+                                <h3>Vegetable Lasagna</h3>
+                                <p>Layers of pasta, cheese, and fresh vegetables.</p>
+                            </div>
+                            <span class="price">$12.99</span>
+                        </div>
+                        <div class="menu-item">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReNFWj-ZecjGXtID1pNTJO9e_kqqDx9L49hQ&s" alt="Baked Salmon">
+                            <div class="item-details">
+                                <h3>Baked Salmon</h3>
+                                <p>Served with asparagus and lemon.</p>
+                            </div>
+                            <span class="price">$14.50</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <!-- Contact Information Section -->
+        <section class="contact-info" id="contact">
+            <h3>Contact Us</h3>
+            <p>
+                <strong><i class="fas fa-phone-alt"></i> Phone:</strong> <a href="tel:123-456-7890">123-456-7890</a>
+            </p>
+            <p>
+                <strong><i class="fas fa-envelope"></i> Email:</strong> <a href="mailto:cafeteria28@gmail.com">cafeteria@gmail.com</a>
+            </p>
+            <p>
+                <strong><i class="fas fa-map-marker-alt"></i> Address:</strong> 123 Food Street, Kurnool, India
+            </p>
+        </section>
+
+        <!-- Feedback Form Section -->
+        <section class="feedback-form" id="feedback">
+            <h3>Feedback & Rating</h3>
+            <form action="#" method="post">
+                <label for="rating" style="color: white; font-weight: bold; margin-bottom: 5px;">Rate our service:</label>
+                <div class="rating-stars" id="rating">
+                    <input type="radio" id="star5" name="rating" value="5"><label for="star5" title="5 stars"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="4 stars"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="3 stars"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="2 stars"><i class="fas fa-star"></i></label>
+                    <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="1 star"><i class="fas fa-star"></i></label>
+                </div>
+                
+                <label for="feedback-text" style="color: white; font-weight: bold; margin-bottom: 5px;">Your comments:</label>
+                <textarea id="feedback-text" name="feedback" placeholder="Share your experience with us..." required></textarea>
+                
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </section>
+    </footer>
+
+</body>
+</html>
